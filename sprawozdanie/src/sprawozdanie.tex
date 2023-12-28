@@ -98,9 +98,9 @@ Założenia:
   \[
     e_i = 
     \begin{cases}
-        \frac{x - x_{i-1}}{x_i - x_{i-1}}  & \text{dla} x\in [0,1]\\
-        2x & \text{dla} x\in (1,2] \\
-        0
+        \frac{x - x_{i-1}}{x_i - x_{i-1}}  & \text{dla} \quad x\in [0,1]\\
+        \frac{x_{i+1} - x}{x_{i+1} - x_i}  & \text{dla} \quad x\in (1,2] \\
+        0 & \text{w przeciwnym wypadku}
     \end{cases}  
   \]
   \pagebreak
