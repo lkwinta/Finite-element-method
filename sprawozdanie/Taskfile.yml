@@ -1,0 +1,9 @@
+version: '3'
+
+tasks:
+  sprawozdanie:
+    desc: Compile sprawozdanie.tex to pdf
+    sources:
+      - src/*
+    cmds:
+      - tectonic "./src/sprawozdanie.tex" -Z search-path="src" --outdir "pdf"

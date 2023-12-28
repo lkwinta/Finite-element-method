@@ -1,0 +1,161 @@
+\documentclass[a4paper]{article}
+
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+
+\usepackage[export]{adjustbox}
+\usepackage{scrextend}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{svg}
+
+\usepackage{geometry}
+\geometry{a4paper, left=15mm, top=30mm, right=15mm, bottom=20mm}
+
+\usepackage{gensymb}
+\usepackage{graphicx} 
+\usepackage{isotope}
+\usepackage{array}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{multirow}
+
+\usepackage{hyperref}
+\usepackage{sectsty}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage[labelformat=simple]{subcaption}
+\usepackage{xcolor,colortbl}
+\usepackage{animate}
+
+\sectionfont{\normalfont\huge\sectionrule{0pt}{0pt}{-6pt}{1pt}}
+\subsectionfont{\normalfont\LARGE}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,LO]{\Large Łukasz Kwinta}
+\fancyfoot[CE,CO]{\Large\thepage}
+
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrulewidth}{1pt}
+
+\definecolor{Gray}{gray}{0.85}
+\definecolor{LightGray}{gray}{0.95}
+
+\newcolumntype{a}{>{\columncolor{Gray}}c}
+\newcolumntype{b}{>{\columncolor{white}}c}
+
+\Large
+\begin{document}
+\section{Wyprowadzenie sformułowania słabego}
+Założenia:
+\[-\frac{d}{dx}\left(k(x)\frac{du(x)}{dx}\right) = 100x \]
+\[u(2) = 0\]
+\[\frac{du(0)}{dx} + u(0) = 20\]
+\[k(x) =
+ \begin{cases}
+    1  & \text{dla} x\in [0,1]\\
+    2x & \text{dla} x\in (1,2]
+  \end{cases}\]
+  \[u: [0,2] \ni x \mapsto u(x) \in \mathbb{R}  \]
+
+  Wyprowadzenie sformułowania słabego zaczynam od obustronnego całkowania równania 
+  razem z przemnożeniem go przez funkcję testującą $\phi$:
+  \[-\int_{0}^{2}(ku')'\phi dx = \int_{0}^{2}100x\phi dx\]
+
+  Całkując lewą stronę przez części można ją uprościć:
+  \[-\int_{0}^{2}(ku')'\phi dx = -\left[ku'\phi\right]_0^2 + \int_{0}^{2}ku'\phi' dx
+  = -k(2)u'(2)\phi(2) + k(0)u'(0)\phi(0) + \int_{0}^{2}ku'\phi' dx = ...\]
+
+  Korzystając z warunku Dirichleta na prawym brzegu, wiemy że $\phi(2) = 0$ co zeruje jeden człon brzegowy:
+  \[... = k(0)u'(0)\phi(0) + \int_{0}^{2}ku'\phi' dx = ... \]
+
+  Następnie korzystając z warunku Cauchego na lewym brzegu upraszczam drugi człon brzegowy:
+  \[u'(0) = 20 - u(0)\]
+  \[... = k(0)(20 - u(0))\phi(0) + \int_{0}^{2}ku'\phi' dx = 20k(0)\phi(0) - k(0)u(0)\phi(0) + \int_{0}^{2}ku'\phi' dx = ...\]
+
+  Na koniec pozostało podstawić funkcję $k(x)$:
+  \[... = 20\phi(0) - u(0)\phi(0) + \int_{0}^{1}u'\phi' dx + \int_{1}^{2}2xu'\phi' dx\]
+
+  Wracając do początkowego równania przenoszę człony niezależące od $u$, na prawą stronę:
+  \[20\phi(0) - u(0)\phi(0) + \int_{0}^{1}u'\phi' dx + \int_{1}^{2}2xu'\phi' dx = \int_{0}^{2}100x\phi dx\]
+  \[-u(0)\phi(0) + \int_{0}^{1}u'\phi' dx + \int_{1}^{2}2xu'\phi' dx = \int_{0}^{2}100x\phi -20\phi(0)dx\]
+
+  Niech:
+  \[B(u, \phi) = -u(0)\phi(0) + \int_{0}^{1}u'\phi' dx + \int_{1}^{2}2xu'\phi' dx\]
+  \[L(\phi) = \int_{0}^{2}100x\phi -20\phi(0)dx\]
+
+  Teraz mogę zapisać sformułowanie słabe (wariacyjne). Niech
+  \[ V := \left\{f \in H^1 : f(2) = 0\right\} \]
+  \[\text{Szukamy:} \quad u \in V \quad \text{takiego, że:} \quad B(u, \phi) = L(\phi) \qquad \forall \phi \in V \]
+  \pagebreak
+  \section{Dyskretyzacja problemu}
+  Jako, że $\dim V = \inf$ nie możemy rozwiązać takiego równania. Dlatego wybieramy podprzestrzeń liniową
+  $V_h \subset V$
+  \[V_h = span \left\{e_0, e_1, e_2, ... , e_n\right\}\]
+  Gdzie funkcje z bazy podprzestrzeni są funkcjami generowanymi przez wzór:
+  \[
+    e_i = 
+    \begin{cases}
+        \frac{x - x_{i-1}}{x_i - x_{i-1}}  & \text{dla} x\in [0,1]\\
+        2x & \text{dla} x\in (1,2] \\
+        0
+    \end{cases}  
+  \]
+  \pagebreak
+  \section{Wyprowadzenie sformułowania słabego}
+  Założenia:
+  \[-\frac{d}{dx}\left(E(x)\frac{du(x)}{dx}\right) = 0 \]
+  \[u(2) = 3\]
+  \[\frac{du(0)}{dx} + u(0) = 10\]
+  \[E(x) =
+  \begin{cases}
+    2  & \text{dla} \quad x\in [0,1]\\
+    6  & \text{dla} \quad x\in (1,2]
+  \end{cases}\]
+  \[u: [0,2] \ni x \mapsto u(x) \in \mathbb{R} \]
+  \[u = \bar{u} + w\]
+  \[V = \left\{f \in H^1 : f(2) = 0 \right\}\]
+  \[w, v \in V\]
+
+  Wyprowadzenie sformułowania słabego zaczynam od obustronnego całkowania równania 
+  razem z przemnożeniem go przez funkcję testującą $v$:
+  \[-\int_{0}^{2}(Eu')'v dx = 0\]
+  Całkując lewą stronę przez części:
+  \[-\int_{0}^{2}(Eu')'v dx = -\left[Eu'v\right]_0^2 + \int_{0}^{2}Eu'v' dx
+  = -E(2)u'(2)v(2) + E(0)u'(0)v(0) + \int_{0}^{2}Eu'v' dx = ...\]
+  Wiemy, że na prawym brzegu spełniony jest warunek Dirichleta, więc $v(2) = 0$, co upraszcza jeden z 
+  członów brzegowych.
+  \[... = E(0)u'(0)v(0) + \int_{0}^{2}Eu'v' dx = ... \]
+  Następnie korzystając z warunku Cauch'ego upraszczam drugi człon brzegowy:
+  \[u'(0) = 10 - u(0)\]
+  \[... = E(0)(10 - u(0))v(0) + \int_{0}^{2}Eu'v' dx = 10E(0)v(0) - E(0)u(0)v(0) + \int_{0}^{2}Eu'v' dx = ... \]
+  Pozostało podstawić funkcję $E(x)$ 
+  \[... = 20v(0) - 2u(0)v(0) + \int_{0}^{1}2u'v'dx + \int_{1}^{2}6u'v' dx\]
+  Wracając do początkowego równania:
+  \[ -2u(0)v(0) + \int_{0}^{1}2u'v'dx + \int_{1}^{2}6u'v'dx = -20v(0)\]
+  Niech 
+  \[
+    B(u, v) = -2u(0)v(0) + \int_{0}^{1}2u'v'dx + \int_{1}^{2}6u'v' dx 
+    L(v) = -20v(0)
+  \]
+  \[B(u, v) = L(v)\]
+  Lecz powyższe równanie nie spełnia założeń sformułowania słabego gdyż $u \notin V$,
+  podstawiamy więc $u = \bar{u} + w$ do równania:
+  \[B(\bar{u} + w, v) = L(v)\]
+  \[-2(\bar{u}(0) + w(0))v(0) + \int_{0}^{1}2(\bar{u}' + w')v' dx + \int_{1}^{2}2(\bar{u}' + w')v' dx = -20v(0)\]
+  Upraszczamy równanie separując zmienne:
+  \[-2\bar{u}(0)v(0) -2w(0)v(0) + \int_{0}^{1}2\bar{u}'v'dx + \int_{0}^{1}2w'v' dx + \int_{1}^{2}6\bar{u}'v' dx + \int_{1}^{2}6w'v' dx = -20v(0)\]
+  \[-2w(0)v(0) + \int_{0}^{1}2w'v' dx + \int_{1}^{2}6w'v' dx = -20v(0) + 6\bar{u}(0)v(0) - \int_{0}^{1}2\bar{u}'v'dx - \int_{1}^{2}6\bar{u}'v' dx\]
+  Teraz potrzebujemy dopasować funkcję $\bar{u}$:
+  \[u = \bar{u} + w \qquad u(2) = 3 \qquad w(2) = 0\]
+  Najprostszą funkcją jaką możemy wziąć, która spełnia powyższe założenia jest:
+  \[\bar{u}(x) = 3\frac{x - (2 - \frac{2}{N})}{\frac{2}{N}}\]
+  
+  Upraszcza nam to powyższe zadanie do postaci:
+  \[\bar{u}'(x) = \frac{3N}{2}\]
+  \[\bar{u}(0) = \frac{-(2-\frac{2}{N})}{\frac{2}{N}} = 3\frac{2-2N}{2} = 3(1-N)\]
+  \[-2w(0)v(0) + \int_{0}^{1}2w'v' dx + \int_{1}^{2}6w'v' dx = -20v(0) + 18(1-N)v(0) - \int_{0}^{1}3Nv'dx - \int_{1}^{2}9Nv' dx\]
+
+\end{document}
