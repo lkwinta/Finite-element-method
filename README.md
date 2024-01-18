@@ -3,11 +3,13 @@ Small rust util that solves heat transfer differential equation using finite ele
 $-(k(x)u'(x))' = 100x$ <br>
 $u(2) = 0$ <br>
 $u(0) + u'(0) = 20$ <br>
-$$k(x) =
+$$
+k(x) =
  \begin{cases}
     1  & \text{dla} x\in [0,1]\\
     2x & \text{dla} x\in (1,2]
-  \end{cases}$$
+  \end{cases}
+$$
 
 # Usage 
 To build program use:
