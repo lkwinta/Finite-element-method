@@ -15,6 +15,7 @@ impl Function {
 
     pub fn add_case<F: Fn(f64) -> f64 + 'static>(mut self, range: (f64, f64), function: F) -> Self{
         self.functions.push((range, Box::new(function)));
+        self.functions.sort_by(|a, b| a.0.0.total_cmp(&b.0.0));
         self
     }
 
