@@ -1,8 +1,8 @@
 # Finite elements method solver
-Small rust util that solves heat transfer differential equation using finite element method. Equation is as following:
-\[-(k(x)u'(x))' = 100x\]
-\[u(2) = 0\]
-\[u(0) + u'(0) = 20\]
+Small rust util that solves heat transfer differential equation using finite element method. Equation is as following: <br>
+$-(k(x)u'(x))' = 100x $ <br>
+$u(2) = 0$ <br>
+$u(0) + u'(0) = 20$ <br>
 
 # Usage 
 To build program use:
