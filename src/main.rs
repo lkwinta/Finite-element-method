@@ -50,8 +50,8 @@ fn B(u: &Function, du: &Function, ϕ: &Function, dϕ: &Function, q: &GaussLegend
     result
 }
 
-fn L(ϕ: &Function, q: &GaussLegendre) -> f64 {
-    -20.0 * ϕ.get_value(0.0) +
+fn L(ϕ: &Function, q: &GaussLegendre, u_2: f64) -> f64 {
+    -20.0 * ϕ.get_value(0.0) + u_2 * ϕ.get_value(0.0) +
     ϕ.cases_iter()
         .map(|((start, end), f_ϕ)|
                  q.integrate(f64::max(0.0, *start), f64::min(2.0, *end), |x| 100.0*x*f_ϕ(x)))
@@ -70,6 +70,7 @@ fn main() {
     let a = 0.0;
     let b = 2.0;
     let Δ = (b - a)/N as f64;
+    let u_2 = 0.0;
 
     let test_functions = (0..N).map(|k| get_e_k((k as f64)*Δ, Δ)).collect::<Vec<_>>();
     let derivatives_test_functions = (0..N).map(|k| get_de_k((k as f64)*Δ, Δ)).collect::<Vec<_>>();
@@ -84,7 +85,7 @@ fn main() {
                     .map(|(ϕi, dϕi)| B(ϕi, dϕi, ϕj,dϕj, &quad)))
             .flatten()
     );
-    let L_vector = DVector::from_iterator(N, test_functions.iter().map(|ϕj| L(ϕj, &quad)));
+    let L_vector = DVector::from_iterator(N, test_functions.iter().map(|ϕj| L(ϕj, &quad, u_2)));
     let W_vector = B_matrix.lu().solve(&L_vector).unwrap();
 
     chart_drawer::draw_chart_array("Funkcje testujące",
@@ -93,7 +94,7 @@ fn main() {
                                    &test_functions);
 
     let u =
-        Function::new(move |x| W_vector.iter().zip(&test_functions).map(|(w_k, e_k)| w_k*e_k.get_value(x)).sum::<f64>() );
+        Function::new(move |x| W_vector.iter().zip(&test_functions).map(|(w_k, e_k)| w_k*e_k.get_value(x)).sum::<f64>() + u_2);
 
     println!("u(0) = {}", u.get_value(0.0));
     let h = 10e-12;
@@ -102,6 +103,6 @@ fn main() {
 
     chart_drawer::draw_chart_single("Wynik rozwiązania równania",
                                     "equation_result.png",
-                                    -0.1f32..2.1f32, -80.0f32..15.0f32,
+                                    -0.1f32..2.1f32, -82.0f32..15.0f32,
                                     &u);
 }
